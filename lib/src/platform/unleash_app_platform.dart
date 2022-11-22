@@ -1,9 +1,19 @@
 import 'package:unleash_flutter_proxy_sdk/src/data/toggle.dart';
+import 'package:unleash_flutter_proxy_sdk/unleash.dart';
 
 /// Abstract class for Unleash Platform
-abstract class Platform {
+abstract class UnleashAppPlatform {
+  /// Unleash Platform constructor
+  UnleashAppPlatform({required this.config, required this.client});
+
+  /// Unleash Config
+  final UnleashConfig config;
+
+  /// Unleash Client
+  final UnleashClient client;
+
   /// Get a single feature by using toggle [key] and return [UnleashToggle]
-  UnleashToggle? getFeature(String key);
+  UnleashToggle? getToggle(String key);
 
   /// Get toggle status by toggle [key] and return boolean status
   /// You can pass the default value also. So, if toggle is not available

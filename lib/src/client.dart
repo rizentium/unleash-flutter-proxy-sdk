@@ -21,6 +21,7 @@ class UnleashClient {
       final toggles = ToggleResponse.fromJson(
         jsonDecode(response.body) as Map<String, dynamic>,
       );
+
       Utils.logger('Fetched ${toggles.toggles.length} toggles');
       return toggles.toggles;
     } catch (e) {

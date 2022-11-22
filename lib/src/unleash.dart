@@ -5,29 +5,22 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:collection/collection.dart';
-import 'package:unleash_flutter_proxy_sdk/src/client.dart';
-import 'package:unleash_flutter_proxy_sdk/src/config.dart';
-import 'package:unleash_flutter_proxy_sdk/src/context.dart';
-import 'package:unleash_flutter_proxy_sdk/src/data/toggle.dart';
-import 'package:unleash_flutter_proxy_sdk/src/platform.dart';
-import 'package:unleash_flutter_proxy_sdk/src/utils.dart';
+part of unleash_flutter_proxy_sdk;
 
 /// {@template unleash}
 /// Unleash Flutter Proxy SDK Client
 /// {@endtemplate}
-class Unleash extends Platform {
+class Unleash extends UnleashPlatform {
   /// {@macro unleash}
-  Unleash._(this._toggles);
+  Unleash._(UnleashApp unleashApp) {
+    _app = unleashApp;
+  }
 
-  final List<UnleashToggle>? _toggles;
+  ///
+  static UnleashApp? _app;
 
-  /// contains all the features from unleash
-  List<UnleashToggle>? get toggles => _toggles;
-
-  /// Initializes a new [Unleash] instance by [config] and returns
-  /// the created app.
-  static Future<Unleash> initializeApp({
+  /// Initializes a new [Unleash] instance by using [config] and [context]
+  static Future<void> initializeApp({
     required UnleashConfig config,
     UnleashContext? context,
   }) async {
@@ -36,21 +29,39 @@ class Unleash extends Platform {
 
     final uri = Uri.tryParse('${config.proxyUrl}?${context?.queryParams}');
 
+    /// Initial call
+    await _initApp(config: config, client: client, uri: uri);
+
+    if (config.poolMode == UnleashPollingMode.none) {
+      return;
+    }
+
+    Timer.periodic(config.poolMode, (timer) async {
+      await _initApp(config: config, client: client, uri: uri);
+      Utils.logger('Updated at ${DateTime.now()}');
+    });
+  }
+
+  static Future<void> _initApp({
+    required UnleashConfig config,
+    Uri? uri,
+    required UnleashClient client,
+  }) async {
     final toggles = await client.fetch(
       uri: uri,
       headers: config.headers,
     );
-    Utils.logger('Initialized');
-    return Unleash._(toggles);
+    Unleash._(UnleashApp._(toggles, client: client, config: config));
   }
 
-  @override
-  UnleashToggle? getFeature(String key) {
-    return _toggles?.firstWhereOrNull((e) => e.name == key);
-  }
+  /// Get a single feature by using toggle [key] and return [UnleashToggle] or
+  /// null if data is not available
+  static UnleashToggle? getToggle(String key) => _app?.getToggle(key);
 
-  @override
-  bool isEnabled(String key, {bool? defaultValue}) {
-    return getFeature(key)?.enabled ?? defaultValue ?? false;
+  /// Get toggle status by toggle [key] and return boolean status
+  /// You can pass the default value also. So, if toggle is not available
+  /// from unleash sources, it will throw to [defaultValue]
+  static bool isEnabled(String key, {bool? defaultValue}) {
+    return _app?.isEnabled(key) ?? defaultValue ?? false;
   }
 }

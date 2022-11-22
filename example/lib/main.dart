@@ -1,3 +1,4 @@
+import 'package:example/first_screen.dart';
 import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 
@@ -6,35 +7,31 @@ import 'package:unleash_flutter_proxy_sdk/unleash.dart';
 
 Future<void> main() async {
   /// Initialize unleash client here
-  final unleash = await Unleash.initializeApp(
+  await Unleash.initializeApp(
     config: UnleashEnvironment.config,
     context: UnleashEnvironment.context,
   );
 
-  runApp(App(unleash: unleash));
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
-  const App({super.key, required this.unleash});
-
-  final Unleash unleash;
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Unleash Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
-      home: UnleashPage(unleash: unleash),
+      home: const UnleashPage(),
     );
   }
 }
 
 class UnleashPage extends StatefulWidget {
-  const UnleashPage({super.key, required this.unleash});
-
-  final Unleash unleash;
+  const UnleashPage({super.key});
 
   @override
   State<UnleashPage> createState() => _UnleashPageState();
@@ -51,21 +48,17 @@ class _UnleashPageState extends State<UnleashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'Toggle Status',
-              style: TextStyle(height: 2.5, fontWeight: FontWeight.w500),
+            TextButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SecondScreen(),
+                  )),
+              child: const Text('First Screen'),
             ),
-            toggleStatus(),
           ],
         ),
       ),
     );
-  }
-
-  Widget toggleStatus() {
-    /// Call [isEnabled] to get the toggle value
-    final status = widget.unleash.isEnabled(ToggleKeys.experiment);
-
-    return Text(status ? 'Enabled' : 'Disabled');
   }
 }
