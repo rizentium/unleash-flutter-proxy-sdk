@@ -12,8 +12,15 @@ import 'package:unleash_flutter_proxy_sdk/unleash.dart';
 
 void main() {
   group('Unleash', () {
-    test('can be instantiated', () {
-      expect(Unleash(), isNotNull);
+    test('can be instantiated', () async {
+      final unleash = await Unleash.initializeApp(
+        config: UnleashConfig(
+          proxyUrl: 'https://MOCK_UNLEASH',
+          clientKey: 'CLIENT_KEY',
+        ),
+      );
+
+      expect(unleash.isEnabled('toggle'), isTrue);
     });
   });
 }

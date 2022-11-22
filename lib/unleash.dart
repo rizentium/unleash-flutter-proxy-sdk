@@ -8,4 +8,7 @@
 /// A Very Good Project created by Very Good CLI.
 library unleash_flutter_proxy_sdk;
 
+export 'src/client.dart';
+export 'src/config.dart';
+export 'src/context.dart';
 export 'src/unleash.dart';

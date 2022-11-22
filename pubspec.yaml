@@ -8,8 +8,11 @@ environment:
   flutter: 3.3.7
 
 dependencies:
+  collection: ^1.16.0
   flutter:
     sdk: flutter
+  http: ^0.13.5
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:
