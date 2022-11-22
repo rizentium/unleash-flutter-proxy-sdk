@@ -10,11 +10,11 @@ This library is meant to be used with the [unleash-proxy][unleash_proxy_link]. T
 
 **❗ In order to start using Unleash you must have the [Flutter SDK][flutter_install_link] installed on your machine.**
 
-Add `unleash_flutter_proxy_sdk` to your `pubspec.yaml`:
+Add `unleash_proxy` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  unleash_flutter_proxy_sdk:
+  unleash_proxy:
 ```
 
 Install it:
@@ -27,7 +27,7 @@ flutter packages get
 
 ## Usage
 
-To use the `unleash_flutter_proxy_sdk` to your Flutter application read the code example below:
+To use the `unleash_proxy` to your Flutter application read the code example below:
 
 ```dart
 
@@ -35,7 +35,7 @@ import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 
 /// Import package here
-import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 Future<void> main() async {
   /// Initialize unleash client here
@@ -142,7 +142,7 @@ Please file any issues, bugs or feature requests as an issue on the [GitHub][iss
 
 ## Author
 
-This `unleash_flutter_proxy_sdk` plugin for Flutter is developed by [Arif Hidayat][github_profile].
+This `unleash_proxy` plugin for Flutter is developed by [Arif Hidayat][github_profile].
 
 [flutter_install_link]: https://docs.flutter.dev/get-started/install
 [github_actions_link]: https://docs.github.com/en/actions/learn-github-actions
