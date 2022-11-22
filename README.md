@@ -1,20 +1,20 @@
-# Unleash
+# Unleash Flutter Proxy SDK
 
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
 [![License: MIT][license_badge]][license_link]
 
-A Very Good Project created by Very Good CLI.
+This library is meant to be used with the [unleash-proxy][unleash_proxy_link]. The proxy application layer will sit between your unleash instance and your client applications, and provides performance and security benefits. DO NOT TRY to connect this library directly to the unleash instance, as the datasets follow different formats because the proxy only returns evaluated toggle information.
 
 ## Installation 💻
 
 **❗ In order to start using Unleash you must have the [Flutter SDK][flutter_install_link] installed on your machine.**
 
-Add `unleash` to your `pubspec.yaml`:
+Add `unleash_flutter_proxy_sdk` to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  unleash:
+  unleash_flutter_proxy_sdk:
 ```
 
 Install it:
@@ -25,9 +25,89 @@ flutter packages get
 
 ---
 
+## Usage
+
+```dart
+
+import 'package:example/unleash_environment.dart';
+import 'package:flutter/material.dart';
+
+/// Import package here
+import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+
+Future<void> main() async {
+  /// Initialize unleash client here
+  final unleash = await Unleash.initializeApp(
+    config: UnleashEnvironment.config,
+    context: UnleashEnvironment.context,
+  );
+
+  runApp(App(unleash: unleash));
+}
+
+class App extends StatelessWidget {
+  const App({super.key, required this.unleash});
+
+  final Unleash unleash;
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Unleash Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: UnleashPage(unleash: unleash),
+    );
+  }
+}
+
+class UnleashPage extends StatefulWidget {
+  const UnleashPage({super.key, required this.unleash});
+
+  final Unleash unleash;
+
+  @override
+  State<UnleashPage> createState() => _UnleashPageState();
+}
+
+class _UnleashPageState extends State<UnleashPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Unleash Page'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text(
+              'Toggle Status',
+              style: TextStyle(height: 2.5, fontWeight: FontWeight.w500),
+            ),
+            toggleStatus(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget toggleStatus() {
+    /// Call [isEnabled] to get the toggle value
+    final status = widget.unleash.isEnabled('toggle-name');
+
+    return Text(status ? 'Enabled' : 'Disabled');
+  }
+}
+
+```
+
+Can check the example [here][unleash_example]
+
 ## Continuous Integration 🤖
 
-Unleash comes with a built-in [GitHub Actions workflow][github_actions_link] powered by [Very Good Workflows][very_good_workflows_link] but you can also add your preferred CI/CD solution.
+Unleash Flutter Proxy SDK comes with a built-in [GitHub Actions workflow][github_actions_link] powered by [Very Good Workflows][very_good_workflows_link] but you can also add your preferred CI/CD solution.
 
 Out of the box, on each pull request and push, the CI `formats`, `lints`, and `tests` the code. This ensures the code remains consistent and behaves correctly as you add functionality or make changes. The project uses [Very Good Analysis][very_good_analysis_link] for a strict set of analysis options used by our team. Code coverage is enforced using the [Very Good Workflows][very_good_coverage_link].
 
@@ -72,3 +152,5 @@ open coverage/index.html
 [very_good_ventures_link_light]: https://verygood.ventures#gh-light-mode-only
 [very_good_ventures_link_dark]: https://verygood.ventures#gh-dark-mode-only
 [very_good_workflows_link]: https://github.com/VeryGoodOpenSource/very_good_workflows
+[unleash_proxy_link]: https://github.com/Unleash/unleash-proxy
+[unleash_example]: https://github.com/rizentium/unleash-flutter-proxy-sdk/blob/main/example/lib/main.dart
