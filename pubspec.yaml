@@ -4,7 +4,6 @@ homepage: https://github.com/rizentium/unleash-flutter-proxy-sdk
 repository: https://github.com/rizentium/unleash-flutter-proxy-sdk
 issue_tracker: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
 version: 0.0.1+1
-publish_to: https://pub.dev
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
