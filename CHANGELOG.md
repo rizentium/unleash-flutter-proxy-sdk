@@ -1,4 +1,3 @@
-# 0.1.0+1
+# 0.0.1+1
 
-- feat: get toggle status
-- feat: pooling update config
+* Initial development release.

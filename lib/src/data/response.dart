@@ -1,4 +1,4 @@
-import 'package:unleash_flutter_proxy_sdk/src/data/toggle.dart';
+import 'package:unleash_proxy/src/data/toggle.dart';
 
 /// Feature Response
 class ToggleResponse {

@@ -8,7 +8,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 void main() {
   group('Unleash', () {

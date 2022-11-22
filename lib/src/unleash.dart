@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-part of unleash_flutter_proxy_sdk;
+part of unleash_proxy;
 
 /// {@template unleash}
 /// Unleash Flutter Proxy SDK Client

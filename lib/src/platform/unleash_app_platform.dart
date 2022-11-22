@@ -1,5 +1,5 @@
-import 'package:unleash_flutter_proxy_sdk/src/data/toggle.dart';
-import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+import 'package:unleash_proxy/src/data/toggle.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 /// Abstract class for Unleash Platform
 abstract class UnleashAppPlatform {

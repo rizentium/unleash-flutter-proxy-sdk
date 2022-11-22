@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:unleash_flutter_proxy_sdk/src/data/response.dart';
-import 'package:unleash_flutter_proxy_sdk/src/data/toggle.dart';
-import 'package:unleash_flutter_proxy_sdk/src/utils.dart';
+import 'package:unleash_proxy/src/data/response.dart';
+import 'package:unleash_proxy/src/data/toggle.dart';
+import 'package:unleash_proxy/src/utils.dart';
 
 /// This class will handle all of the fetch feature from endpoint
 class UnleashClient {

@@ -1,4 +1,4 @@
-part of unleash_flutter_proxy_sdk;
+part of unleash_proxy;
 
 /// Represents a single Unleash app instance.
 ///

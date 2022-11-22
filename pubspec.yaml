@@ -1,11 +1,14 @@
-name: unleash_flutter_proxy_sdk
-description: A Very Good Project created by Very Good CLI.
-version: 0.1.0+1
-publish_to: none
+name: unleash_proxy
+description: Unleash Flutter Proxy SDK
+homepage: https://github.com/rizentium/unleash-flutter-proxy-sdk
+repository: https://github.com/rizentium/unleash-flutter-proxy-sdk
+issue_tracker: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
+version: 0.0.1+1
+publish_to: https://pub.dev
 
 environment:
   sdk: ">=2.18.0 <3.0.0"
-  flutter: 3.3.7
+  flutter: ">=3.0.0"
 
 dependencies:
   collection: ^1.16.0

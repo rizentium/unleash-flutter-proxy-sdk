@@ -3,7 +3,7 @@ import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 
 /// Import package here
-import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 Future<void> main() async {
   /// Initialize unleash client here
