@@ -27,6 +27,8 @@ flutter packages get
 
 ## Usage
 
+To use the `unleash_flutter_proxy_sdk` to your Flutter application read the code example below:
+
 ```dart
 
 import 'package:example/unleash_environment.dart';
@@ -137,6 +139,14 @@ genhtml coverage/lcov.info -o coverage/
 open coverage/index.html
 ```
 
+## Issues
+
+Please file any issues, bugs or feature requests as an issue on the [GitHub][issues_link] page. Commercial support is available, you can contact me at [rizentium@gmail.com][email].
+
+## Author
+
+This `unleash_flutter_proxy_sdk` plugin for Flutter is developed by [Arif Hidayat][github_profile].
+
 [flutter_install_link]: https://docs.flutter.dev/get-started/install
 [github_actions_link]: https://docs.github.com/en/actions/learn-github-actions
 [license_badge]: https://img.shields.io/badge/license-MIT-blue.svg
@@ -154,3 +164,6 @@ open coverage/index.html
 [very_good_workflows_link]: https://github.com/VeryGoodOpenSource/very_good_workflows
 [unleash_proxy_link]: https://github.com/Unleash/unleash-proxy
 [unleash_example]: https://github.com/rizentium/unleash-flutter-proxy-sdk/blob/main/example/lib/main.dart
+[github_profile]: https://github.com/rizentium
+[email]: mailto:rizentium@gmail.com
+[issues_link]: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
