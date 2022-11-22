@@ -1,15 +1,11 @@
+import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 import 'package:unleash_flutter_proxy_sdk/unleash.dart';
 
 Future<void> main() async {
   final unleash = await Unleash.initializeApp(
-    config: UnleashConfig(
-      proxyUrl: 'proxyUrl',
-      clientKey: 'clientKey',
-    ),
-    context: UnleashContext(
-      userId: '',
-    ),
+    config: UnleashEnvironment.config,
+    context: UnleashEnvironment.context,
   );
 
   runApp(App(unleash: unleash));
@@ -96,11 +92,25 @@ class _UnleashPageState extends State<UnleashPage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text('Unleash Toggle Example'),
+          children: <Widget>[
+            const Text(
+              'Toggle Status',
+              style: TextStyle(
+                height: 2.5,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            toggleStatus(),
           ],
         ),
       ),
     );
+  }
+
+  Widget toggleStatus() {
+    if (widget.unleash.isEnabled(ToggleKeys.experiment)) {
+      return const Text('Enabled');
+    }
+    return const Text('Disabled');
   }
 }
