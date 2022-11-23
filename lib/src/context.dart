@@ -1,7 +1,7 @@
 /// Unleash Context
 class UnleashContext {
   /// Unleash Context constructor
-  UnleashContext({this.appName, this.userId, this.sessionId});
+  UnleashContext({this.appName, this.userId, this.sessionId, this.properties});
 
   /// Unleash App Name
   final String? appName;
@@ -12,22 +12,29 @@ class UnleashContext {
   /// Unleash Session ID
   final String? sessionId;
 
+  /// Unleash additional properties
+  final Map<String, String>? properties;
+
   /// Context Query Params
   String get queryParams {
-    const params = <String>[];
+    final params = <String, String>{};
 
     if (appName != null) {
-      params.add('appName=$appName');
+      params.putIfAbsent('appName', () => appName!);
     }
 
     if (userId != null) {
-      params.add('userId=$userId');
+      params.putIfAbsent('userId', () => userId!);
     }
 
     if (sessionId != null) {
-      params.add('sessionId=$sessionId');
+      params.putIfAbsent('sessionId', () => sessionId!);
     }
 
-    return params.join('&');
+    params.addAll(properties ?? {});
+
+    print(Uri(queryParameters: params).query);
+
+    return Uri(queryParameters: params).query;
   }
 }

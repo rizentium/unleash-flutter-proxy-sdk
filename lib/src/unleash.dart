@@ -58,6 +58,10 @@ class Unleash extends UnleashPlatform {
   /// null if data is not available
   static UnleashToggle? getToggle(String key) => _app?.getToggle(key);
 
+  /// Get all toggles and return list of [UnleashToggle]  or null if data is
+  /// not available
+  static List<UnleashToggle>? getToggles() => _app?.toggles;
+
   /// Get toggle status by toggle [key] and return boolean status
   /// You can pass the default value also. So, if toggle is not available
   /// from unleash sources, it will throw to [defaultValue]
