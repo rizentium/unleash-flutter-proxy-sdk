@@ -1,3 +1,5 @@
+import 'package:unleash_proxy/src/data/bootstrap.dart';
+
 /// Unleash Config Interface
 class UnleashConfig {
   /// Unleash Config constructor
@@ -6,6 +8,7 @@ class UnleashConfig {
     required this.clientKey,
     this.instanceId,
     this.poolMode = const Duration(seconds: 15),
+    this.bootstrap,
   });
 
   /// Unleash Proxy URL
@@ -19,6 +22,9 @@ class UnleashConfig {
 
   /// Unleash Polling Mode
   final Duration poolMode;
+
+  /// Unleash Boostrap
+  final UnleashBootstrap? bootstrap;
 
   /// Header default for Unleash Request
   Map<String, String> get headers => {

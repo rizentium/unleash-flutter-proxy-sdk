@@ -36,6 +36,7 @@ class Unleash extends UnleashPlatform {
       return;
     }
 
+    /// Call init app periodically
     Timer.periodic(config.poolMode, (timer) async {
       await _initApp(config: config, client: client, uri: uri);
       Utils.logger('Updated at ${DateTime.now()}');
@@ -47,10 +48,44 @@ class Unleash extends UnleashPlatform {
     Uri? uri,
     required UnleashClient client,
   }) async {
-    final toggles = await client.fetch(
+    /// Use boostrap source as initial value
+    final toggles = <UnleashToggle>[...?config.bootstrap?.source];
+
+    /// Retrieve json data from bootstrap config
+    final bootstrapJson = config.bootstrap?.json;
+
+    if (bootstrapJson != null) {
+      final bootstrapToggles = ToggleResponse.fromJson(
+        json.decode(bootstrapJson) as Map<String, dynamic>,
+      );
+
+      for (final e in bootstrapToggles.toggles) {
+        final index = toggles.indexWhere((f) => f.name == e.name);
+
+        if (index == -1) {
+          toggles.add(e);
+        } else {
+          toggles[index] = e;
+        }
+      }
+    }
+
+    /// Fetch data from server
+    final fetched = await client.fetch(
       uri: uri,
       headers: config.headers,
     );
+
+    fetched?.forEach((e) {
+      final index = toggles.indexWhere((f) => f.name == e.name);
+
+      if (index == -1) {
+        toggles.add(e);
+      } else {
+        toggles[index] = e;
+      }
+    });
+
     Unleash._(UnleashApp._(toggles, client: client, config: config));
   }
 
