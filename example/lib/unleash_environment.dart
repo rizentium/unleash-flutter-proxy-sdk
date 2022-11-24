@@ -1,14 +1,34 @@
-import 'package:unleash_flutter_proxy_sdk/unleash.dart';
+import 'package:flutter/services.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 class UnleashEnvironment {
-  static UnleashConfig get config => UnleashConfig(
-        proxyUrl: 'https://UNLEASH_URL/proxy',
-        clientKey: 'CLIENT_KEY',
-      );
+  static Future<UnleashConfig> get config async {
+    final String source = await rootBundle.loadString('lib/source.json');
 
-  static UnleashContext get context => UnleashContext();
+    return UnleashConfig(
+      proxyUrl: 'https://UNLEASH_URL/proxy',
+      clientKey: 'CLIENT_KEY',
+      poolMode: UnleashPollingMode.none,
+      bootstrap: UnleashBootstrap(
+        source: [
+          UnleashToggle(
+            enabled: true,
+            name: 'testing-source',
+            variant: UnleashToggleVariant(name: 'disabled', enabled: false),
+          ),
+        ],
+        json: source,
+      ),
+    );
+  }
+
+  static UnleashContext get context => UnleashContext(
+        properties: {
+          'variant': 'ios',
+        },
+      );
 }
 
 class ToggleKeys {
-  static String experiment = 'unleash-toggle-name';
+  static String experiment = 'testing-source';
 }

@@ -2,8 +2,8 @@ import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
-class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+class ExampleScreen extends StatelessWidget {
+  const ExampleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

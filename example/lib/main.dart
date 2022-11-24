@@ -1,4 +1,4 @@
-import 'package:example/first_screen.dart';
+import 'package:example/example_screen.dart';
 import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 
@@ -6,9 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 Future<void> main() async {
+  /// You only need to call this method if you need the binding to be
+  /// initialized before calling [runApp].
+  WidgetsFlutterBinding.ensureInitialized();
+
   /// Initialize unleash client here
   await Unleash.initializeApp(
-    config: UnleashEnvironment.config,
+    config: await UnleashEnvironment.config,
     context: UnleashEnvironment.context,
   );
 
@@ -52,9 +56,9 @@ class _UnleashPageState extends State<UnleashPage> {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const SecondScreen(),
+                    builder: (context) => const ExampleScreen(),
                   )),
-              child: const Text('First Screen'),
+              child: const Text('Example Screen'),
             ),
           ],
         ),

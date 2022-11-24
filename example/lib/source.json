@@ -1,0 +1,22 @@
+{
+    "toggles": [
+        {
+            "name": "source-1",
+            "enabled": true,
+            "variant": {
+                "name": "disabled",
+                "enabled": false
+            },
+            "impressionData": false
+        },
+        {
+            "name": "source-2",
+            "enabled": true,
+            "variant": {
+                "name": "disabled",
+                "enabled": false
+            },
+            "impressionData": false
+        }
+    ]
+}
