@@ -1,3 +1,7 @@
+# 0.2.1
+
+* Fixed description in pubspec.yaml
+
 # 0.2.0
 
 * Added toggle variant support
