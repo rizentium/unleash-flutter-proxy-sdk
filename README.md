@@ -1,5 +1,7 @@
 # Unleash Flutter Proxy SDK
 
+[![pub package][pub_badge]][pub_badge]
+[![pub points][pub_points]][pub_points]
 [![style: very good analysis][very_good_analysis_badge]][very_good_analysis_link]
 [![Powered by Mason](https://img.shields.io/endpoint?url=https%3A%2F%2Ftinyurl.com%2Fmason-badge)](https://github.com/felangel/mason)
 [![License: MIT][license_badge]][license_link]
@@ -27,7 +29,34 @@ flutter packages get
 
 ## Usage
 
-To use the `unleash_proxy` to your Flutter application read the code example below:
+To use the `unleash_proxy` to Flutter application, initialize `unleash_proxy` first:
+
+### Unleash Environment
+
+Create `unleash_environment.dart` file to save environment variables:
+
+```dart
+import 'package:flutter/services.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
+
+class UnleashEnvironment {
+  static UnleashConfig get config => UnleashConfig(
+    proxyUrl: 'https://UNLEASH_URL/proxy',
+    clientKey: 'CLIENT_KEY',
+  );
+
+  static UnleashContext get context => UnleashContext();
+}
+
+class ToggleKeys {
+  static String experiment = 'toggle-experiment';
+}
+
+```
+
+### Initialize Unleash Proxy
+
+Initialize `unleash_proxy` to the main file:
 
 ```dart
 
@@ -38,6 +67,10 @@ import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 Future<void> main() async {
+  /// You only need to call this method if you need the binding to be
+  /// initialized before calling [runApp].
+  WidgetsFlutterBinding.ensureInitialized();
+
   /// Initialize unleash client here
   await Unleash.initializeApp(
     config: UnleashEnvironment.config,
@@ -47,34 +80,23 @@ Future<void> main() async {
   runApp(const App());
 }
 
-class App extends StatelessWidget {
-  const App({super.key});
+```
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Unleash Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.purple,
-      ),
-      home: const UnleashPage(),
-    );
-  }
-}
+### Use Unleash Proxy Toggle
 
-class UnleashPage extends StatefulWidget {
-  const UnleashPage({super.key});
+```dart
+import 'package:example/unleash_environment.dart';
+import 'package:flutter/material.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
-  @override
-  State<UnleashPage> createState() => _UnleashPageState();
-}
+class ExampleScreen extends StatelessWidget {
+  const ExampleScreen({super.key});
 
-class _UnleashPageState extends State<UnleashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Unleash Page'),
+        title: const Text('First Screen'),
       ),
       body: Center(
         child: Column(
@@ -98,8 +120,6 @@ class _UnleashPageState extends State<UnleashPage> {
     return Text(status == true ? 'Enabled' : 'Disabled');
   }
 }
-
-
 ```
 
 Can check the example [here][unleash_example]
@@ -164,3 +184,5 @@ This `unleash_proxy` plugin for Flutter is developed by [Arif Hidayat][github_pr
 [github_profile]: https://github.com/rizentium
 [email]: mailto:rizentium@gmail.com
 [issues_link]: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
+[pub_badge]: https://img.shields.io/pub/v/unleash_proxy.svg
+[pub_points]: https://img.shields.io/pub/points/unleash_proxy?color=2E8B57&label=pub%20points
