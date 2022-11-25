@@ -19,7 +19,7 @@ class UnleashClient {
       }
       final response = await http.get(uri, headers: headers);
       final toggles = ToggleResponse.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
+        json.decode(response.body) as Map<String, dynamic>,
       );
 
       Utils.logger('Fetched ${toggles.toggles.length} toggles');

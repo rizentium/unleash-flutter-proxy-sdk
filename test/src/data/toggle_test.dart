@@ -14,7 +14,7 @@ void main() {
           '"variant": {"name": "simple","enabled": true} '
           '}';
 
-      final decode = jsonDecode(payload) as Map<String, dynamic>;
+      final decode = json.decode(payload) as Map<String, dynamic>;
 
       final source = UnleashToggle.fromJson(decode);
 
