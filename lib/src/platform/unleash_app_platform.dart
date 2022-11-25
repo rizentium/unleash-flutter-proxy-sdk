@@ -17,5 +17,9 @@ abstract class UnleashAppPlatform {
   /// Get toggle status by toggle [key] and return boolean status
   /// You can pass the default value also. So, if toggle is not available
   /// from unleash sources, it will throw to [defaultValue]
-  bool isEnabled(String key, {bool? defaultValue});
+  bool isEnabled(
+    String key, {
+    bool? defaultValue,
+    bool? overrideValue,
+  });
 }

@@ -17,7 +17,15 @@ class UnleashApp extends UnleashAppPlatform {
   }
 
   @override
-  bool isEnabled(String key, {bool? defaultValue}) {
-    return getToggle(key)?.enabled ?? defaultValue ?? false;
+  bool isEnabled(
+    String key, {
+    bool? defaultValue,
+    bool? overrideValue,
+  }) {
+    if (overrideValue == null) {
+      return getToggle(key)?.enabled ?? defaultValue ?? false;
+    } else {
+      return overrideValue;
+    }
   }
 }
