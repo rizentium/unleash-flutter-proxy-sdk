@@ -4,6 +4,8 @@ concurrency:
   group: $-$
   cancel-in-progress: true
 
+coverage_excludes: true
+
 on:
   pull_request:
     branches:
