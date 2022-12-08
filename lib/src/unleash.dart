@@ -86,6 +86,9 @@ class Unleash extends UnleashPlatform {
       }
     });
 
+    /// Run onFetched function if exist
+    config.onFetched?.call(toggles);
+
     Unleash._(UnleashApp._(toggles, client: client, config: config));
   }
 

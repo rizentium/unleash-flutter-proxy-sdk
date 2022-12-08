@@ -20,8 +20,8 @@ class UnleashEnvironment {
         ],
         json: source,
       ),
-      onFetched: () {
-        debugPrint('Fetched...');
+      onFetched: (List<UnleashToggle> toggles) {
+        debugPrint('Yay! ${toggles.length} toggles fetched.');
       },
     );
   }
