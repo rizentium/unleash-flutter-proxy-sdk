@@ -33,8 +33,6 @@ class UnleashContext {
 
     params.addAll(properties ?? {});
 
-    print(Uri(queryParameters: params).query);
-
     return Uri(queryParameters: params).query;
   }
 }
