@@ -9,6 +9,7 @@ class UnleashConfig {
     this.instanceId,
     this.poolMode = const Duration(seconds: 15),
     this.bootstrap,
+    this.onFetched,
   });
 
   /// Unleash Proxy URL
@@ -32,4 +33,7 @@ class UnleashConfig {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       };
+
+  /// Run this function every fetch from server
+  final Function? onFetched;
 }

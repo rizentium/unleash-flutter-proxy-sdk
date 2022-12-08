@@ -1,4 +1,5 @@
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 class UnleashEnvironment {
@@ -8,7 +9,7 @@ class UnleashEnvironment {
     return UnleashConfig(
       proxyUrl: 'https://UNLEASH_URL/proxy',
       clientKey: 'CLIENT_KEY',
-      poolMode: UnleashPollingMode.none,
+      poolMode: UnleashPollingMode.custom(const Duration(seconds: 5)),
       bootstrap: UnleashBootstrap(
         source: [
           UnleashToggle(
@@ -19,6 +20,9 @@ class UnleashEnvironment {
         ],
         json: source,
       ),
+      onFetched: () {
+        debugPrint('Fetched...');
+      },
     );
   }
 
