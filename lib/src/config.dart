@@ -1,4 +1,5 @@
 import 'package:unleash_proxy/src/data/bootstrap.dart';
+import 'package:unleash_proxy/src/data/toggle.dart';
 
 /// Unleash Config Interface
 class UnleashConfig {
@@ -35,5 +36,5 @@ class UnleashConfig {
       };
 
   /// Run this function every fetch from server
-  final Function? onFetched;
+  final void Function(List<UnleashToggle> toggles)? onFetched;
 }

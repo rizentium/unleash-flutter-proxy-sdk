@@ -1,3 +1,7 @@
+# 0.2.2
+* Added support to override fallback value
+* Added onFetched functions
+
 # 0.2.1
 
 * Fixed description in pubspec.yaml
