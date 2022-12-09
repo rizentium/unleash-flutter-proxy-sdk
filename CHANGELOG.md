@@ -1,3 +1,6 @@
+# 0.2.3
+* Added support to fetch toggles from cache if got connection issue
+
 # 0.2.2
 * Added support to override fallback value
 * Added onFetched functions

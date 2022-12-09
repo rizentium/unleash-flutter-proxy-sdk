@@ -12,6 +12,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:unleash_proxy/src/cache/cache.dart';
 import 'package:unleash_proxy/src/data/response.dart';
 import 'package:unleash_proxy/src/platform/unleash_app_platform.dart';
 import 'package:unleash_proxy/src/platform/unleash_platform.dart';
