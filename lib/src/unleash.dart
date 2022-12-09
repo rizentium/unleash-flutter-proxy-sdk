@@ -25,7 +25,8 @@ class Unleash extends UnleashPlatform {
     UnleashContext? context,
   }) async {
     Utils.logger('Initialize application');
-    final client = UnleashClient();
+    final cache = await UnleashCache.init();
+    final client = UnleashClient(cache);
 
     final uri = Uri.tryParse('${config.proxyUrl}?${context?.queryParams}');
 
