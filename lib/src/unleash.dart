@@ -16,22 +16,30 @@ class Unleash extends UnleashPlatform {
     _app = unleashApp;
   }
 
-  ///
+  /// [_app] is current unleash app instance
   static UnleashApp? _app;
+
+  /// [appContext] is current [UnleashContext]
+  static UnleashContext? appContext;
 
   /// Initializes a new [Unleash] instance by using [config] and [context]
   static Future<void> initializeApp({
     required UnleashConfig config,
     UnleashContext? context,
   }) async {
+    /// Initialize context
+    appContext = context;
+
     Utils.logger('Initialize application');
     final cache = await UnleashCache.init();
     final client = UnleashClient(cache);
 
-    final uri = Uri.tryParse('${config.proxyUrl}?${context?.queryParams}');
+    final uri = Uri.tryParse(
+      '${config.proxyUrl}?${appContext?.queryParams}',
+    );
 
-    /// Initial call
-    await _initApp(config: config, client: client, uri: uri);
+    /// Initial fetch toggles
+    await _fetchToggles(config: config, client: client, uri: uri);
 
     if (config.poolMode == UnleashPollingMode.none) {
       return;
@@ -39,12 +47,16 @@ class Unleash extends UnleashPlatform {
 
     /// Call init app periodically
     Timer.periodic(config.poolMode, (timer) async {
-      await _initApp(config: config, client: client, uri: uri);
+      final periodicUri = Uri.tryParse(
+        '${config.proxyUrl}?${appContext?.queryParams}',
+      );
+      await _fetchToggles(config: config, client: client, uri: periodicUri);
       Utils.logger('Updated at ${DateTime.now()}');
+      Utils.logger(periodicUri.toString());
     });
   }
 
-  static Future<void> _initApp({
+  static Future<void> _fetchToggles({
     required UnleashConfig config,
     Uri? uri,
     required UnleashClient client,
