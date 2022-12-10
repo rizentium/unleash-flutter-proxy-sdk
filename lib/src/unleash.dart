@@ -16,7 +16,7 @@ class Unleash extends UnleashPlatform {
     _app = unleashApp;
   }
 
-  ///
+  /// [_app] is current unleash app instance
   static UnleashApp? _app;
 
   /// Initializes a new [Unleash] instance by using [config] and [context]
