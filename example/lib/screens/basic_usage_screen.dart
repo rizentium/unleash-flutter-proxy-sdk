@@ -2,14 +2,14 @@ import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
-class ExampleScreen extends StatelessWidget {
-  const ExampleScreen({super.key});
+class BasicUsageScreen extends StatelessWidget {
+  const BasicUsageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First Screen'),
+        title: const Text('Basic Usage'),
       ),
       body: Center(
         child: Column(

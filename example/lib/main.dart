@@ -1,4 +1,5 @@
-import 'package:example/example_screen.dart';
+import 'package:example/screens/basic_usage_screen.dart';
+import 'package:example/screens/update_context_screen.dart';
 import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 
@@ -48,17 +49,27 @@ class _UnleashPageState extends State<UnleashPage> {
       appBar: AppBar(
         title: const Text('Unleash Page'),
       ),
-      body: Center(
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 12.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            TextButton(
+            OutlinedButton(
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ExampleScreen(),
+                    builder: (context) => const BasicUsageScreen(),
                   )),
-              child: const Text('Example Screen'),
+              child: const Text('Basic Usage'),
+            ),
+            OutlinedButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const UpdateContextScreen(),
+                  )),
+              child: const Text('Update Context'),
             ),
           ],
         ),
