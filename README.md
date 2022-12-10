@@ -29,11 +29,83 @@ flutter packages get
 
 ## Usage
 
-To use the `unleash_proxy` to Flutter application, initialize `unleash_proxy` first:
+### Initialize Unleash Proxy
 
-### Unleash Environment
+Unleash context and configuration is required for initialize unleash app.
 
-Create `unleash_environment.dart` file to save environment variables:
+#### Context
+
+The important properties to configure on the context are:
+- appName - In case you use strategies that depend on which app
+- userId - GradualRolloutStrategies often use this to decide stickiness when assigning which group of users the user end up in
+- sessionId - GradualRolloutStrategies often use this to decide stickiness
+- properties - In case you use custom strategies
+
+Example:
+
+```dart
+UnleashContext(
+  appName: 'APP_NAME',
+  userId: 'USER_ID',
+  sessionId: 'SESSION_ID',
+  properties: {'variant': 'ios'},
+);
+```
+
+Update current context by set unleash `appContext`:
+
+```dart
+Unleash.appContext = UnleashContext(
+  properties: {'variant': 'ios'},
+  userId: 'exampleId',
+);
+```
+
+#### Configuration
+
+For the config you must set two variables, and if you'd like to be notified when the polling thread has found updates you should also configure pollMode:
+- proxyUrl - Where your proxy installation is located, for Unleash-Hosted's demo instance this is at https://app.unleash-hosted.com/demo/proxy but yours will be somewhere else
+- clientKey - The api key for accessing your proxy. (renamed from clientSecret in v0.4.0)
+- pollMode - See PollingModes
+- bootstrap - Allows you to bootstrap the cached feature toggle configuration by using `json` format or `List<UnleashToggle>`
+- onFetched - Run a function every toggle fetched from server
+
+Example:
+
+```dart
+UnleashConfig(
+  proxyUrl: 'https://UNLEASH_URL/proxy',
+  clientKey: 'CLIENT_KEY',
+  poolMode: UnleashPollingMode.custom(const Duration(seconds: 5)),
+  bootstrap: UnleashBootstrap(
+    source: [
+      UnleashToggle(
+        enabled: true,
+        name: 'testing-source',
+        variant: UnleashToggleVariant(name: 'disabled', enabled: false),
+      ),
+    ],
+    json: source,
+  ),
+  onFetched: (List<UnleashToggle> toggles) {
+    debugPrint('Yay! ${toggles.length} toggles fetched.');
+  },
+)
+```
+
+#### PollingModes
+
+For updating toggles based on server, you have to set pollingMode in unleash configuration. Polling Mode will set to 15 seconds by default, but you can set to `UnleashPollingMode.none` if you don't want to use toggle interval update or you can custom the interval duration by using custom polling mode.
+
+Example:
+
+```dart
+UnleashPollingMode.custom(const Duration(seconds: 5));
+```
+
+#### Initialize
+
+To use the `unleash_proxy` to Flutter application, initialize `unleash_proxy` first. Create `unleash_environment.dart` file to save environment variables. You can follow the code bellow for basic environment config:
 
 ```dart
 import 'package:flutter/services.dart';
@@ -53,8 +125,6 @@ class ToggleKeys {
 }
 
 ```
-
-### Initialize Unleash Proxy
 
 Initialize `unleash_proxy` to the main file:
 
@@ -186,3 +256,4 @@ This `unleash_proxy` plugin for Flutter is developed by [Arif Hidayat][github_pr
 [issues_link]: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
 [pub_badge]: https://img.shields.io/pub/v/unleash_proxy.svg
 [pub_points]: https://img.shields.io/pub/points/unleash_proxy?color=2E8B57&label=pub%20points
+[polling_mode]: https://github.com/rizentium/unleash-flutter-proxy-sdk#PollingModes
