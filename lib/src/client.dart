@@ -47,6 +47,7 @@ class UnleashClient {
 
       Utils.logger(
         'Fetched ${toggles.toggles.length} toggles from cache storage',
+        error: e,
       );
 
       return toggles.toggles;

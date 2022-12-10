@@ -19,16 +19,24 @@ class Unleash extends UnleashPlatform {
   /// [_app] is current unleash app instance
   static UnleashApp? _app;
 
+  /// [appContext] is current [UnleashContext]
+  static UnleashContext? appContext;
+
   /// Initializes a new [Unleash] instance by using [config] and [context]
   static Future<void> initializeApp({
     required UnleashConfig config,
     UnleashContext? context,
   }) async {
+    /// Initialize context
+    appContext = context;
+
     Utils.logger('Initialize application');
     final cache = await UnleashCache.init();
     final client = UnleashClient(cache);
 
-    final uri = Uri.tryParse('${config.proxyUrl}?${context?.queryParams}');
+    final uri = Uri.tryParse(
+      '${config.proxyUrl}?${appContext?.queryParams}',
+    );
 
     /// Initial fetch toggles
     await _fetchToggles(config: config, client: client, uri: uri);
@@ -39,8 +47,12 @@ class Unleash extends UnleashPlatform {
 
     /// Call init app periodically
     Timer.periodic(config.poolMode, (timer) async {
-      await _fetchToggles(config: config, client: client, uri: uri);
+      final periodicUri = Uri.tryParse(
+        '${config.proxyUrl}?${appContext?.queryParams}',
+      );
+      await _fetchToggles(config: config, client: client, uri: periodicUri);
       Utils.logger('Updated at ${DateTime.now()}');
+      Utils.logger(periodicUri.toString());
     });
   }
 
