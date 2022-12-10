@@ -30,8 +30,8 @@ class Unleash extends UnleashPlatform {
 
     final uri = Uri.tryParse('${config.proxyUrl}?${context?.queryParams}');
 
-    /// Initial call
-    await _initApp(config: config, client: client, uri: uri);
+    /// Initial fetch toggles
+    await _fetchToggles(config: config, client: client, uri: uri);
 
     if (config.poolMode == UnleashPollingMode.none) {
       return;
@@ -39,12 +39,12 @@ class Unleash extends UnleashPlatform {
 
     /// Call init app periodically
     Timer.periodic(config.poolMode, (timer) async {
-      await _initApp(config: config, client: client, uri: uri);
+      await _fetchToggles(config: config, client: client, uri: uri);
       Utils.logger('Updated at ${DateTime.now()}');
     });
   }
 
-  static Future<void> _initApp({
+  static Future<void> _fetchToggles({
     required UnleashConfig config,
     Uri? uri,
     required UnleashClient client,
