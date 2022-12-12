@@ -7,8 +7,8 @@ class UnleashEnvironment {
     final String source = await rootBundle.loadString('lib/source.json');
 
     return UnleashConfig(
-      proxyUrl: 'https://UNLEASH_URL/proxy',
-      clientKey: 'CLIENT_KEY',
+      proxyUrl: 'https://app.unleash-hosted.com/demo/api/proxy',
+      clientKey: 'proxy-123',
       poolMode: UnleashPollingMode.custom(const Duration(seconds: 5)),
       bootstrap: UnleashBootstrap(
         source: [
@@ -27,12 +27,10 @@ class UnleashEnvironment {
   }
 
   static UnleashContext get context => UnleashContext(
-        properties: {
-          'variant': 'ios',
-        },
+        properties: {'variant': 'ios'},
       );
 }
 
 class ToggleKeys {
-  static String experiment = 'testing-source';
+  static String experiment = 'unleash-experiment';
 }
