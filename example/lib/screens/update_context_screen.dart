@@ -23,7 +23,6 @@ class _UpdateContextScreenState extends State<UpdateContextScreen> {
     _togglePollingTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       fetchToggleStatus();
     });
-    _togglePollingTimer;
     super.initState();
   }
 

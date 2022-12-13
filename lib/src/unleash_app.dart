@@ -4,9 +4,9 @@ part of unleash_proxy;
 ///
 /// You can get an instance by calling [Unleash.app()].
 class UnleashApp extends UnleashAppPlatform {
-  UnleashApp._(this._toggles, {required super.config, required super.client});
+  UnleashApp._(this._toggles, {super.config, super.client});
 
-  final List<UnleashToggle>? _toggles;
+  late final List<UnleashToggle>? _toggles;
 
   /// contains all the features from unleash
   List<UnleashToggle>? get toggles => _toggles;

@@ -103,6 +103,8 @@ Example:
 UnleashPollingMode.custom(const Duration(seconds: 5));
 ```
 
+If you want to stop polling imediatelly, you can call `Unleash.dispose()`. Unleash will use the latest cache from your cache storage.
+
 #### Initialize
 
 To use the `unleash_proxy` to Flutter application, initialize `unleash_proxy` first. Create `unleash_environment.dart` file to save environment variables. You can follow the code bellow for basic environment config:
