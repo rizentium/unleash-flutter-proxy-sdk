@@ -1,3 +1,6 @@
+# 0.2.4
+* Added support to get unleash app instance
+
 # 0.2.3
 * Added support to fetch toggles from cache if got connection issue
 * Added support to update unleash context
