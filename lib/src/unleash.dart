@@ -26,6 +26,8 @@ class Unleash extends UnleashPlatform {
   /// [appContext] is current [UnleashContext]
   static UnleashContext? appContext;
 
+  static UnleashConfig? _config;
+
   /// Initializes a new [Unleash] instance by using [config] and [context]
   static Future<void> initializeApp({
     required UnleashConfig config,
@@ -33,6 +35,7 @@ class Unleash extends UnleashPlatform {
   }) async {
     /// Initialize context
     appContext = context;
+    _config = config;
 
     Utils.logger('Initialize application');
     final cache = await UnleashCache.init();
@@ -43,7 +46,7 @@ class Unleash extends UnleashPlatform {
     );
 
     /// Initial fetch toggles
-    await _fetchToggles(config: config, client: client, uri: uri);
+    await _fetchToggles(client: client, uri: uri);
 
     if (config.poolMode == UnleashPollingMode.none) {
       return;
@@ -54,17 +57,18 @@ class Unleash extends UnleashPlatform {
       final periodicUri = Uri.tryParse(
         '${config.proxyUrl}?${appContext?.queryParams}',
       );
-      await _fetchToggles(config: config, client: client, uri: periodicUri);
+      await _fetchToggles(client: client, uri: periodicUri);
       Utils.logger('Updated at ${DateTime.now()}');
       Utils.logger(periodicUri.toString());
     });
   }
 
   static Future<void> _fetchToggles({
-    required UnleashConfig config,
     Uri? uri,
     required UnleashClient client,
   }) async {
+    final config = _config ?? UnleashConfig(proxyUrl: '', clientKey: '');
+
     /// Use boostrap source as initial value
     final toggles = <UnleashToggle>[...?config.bootstrap?.source];
 

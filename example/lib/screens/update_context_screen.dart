@@ -15,13 +15,22 @@ class _UpdateContextScreenState extends State<UpdateContextScreen> {
   bool toggleStatus = false;
   bool isLoading = false;
 
+  Timer? _togglePollingTimer;
+
   @override
   void initState() {
     fetchToggleStatus();
-    Timer.periodic(const Duration(seconds: 5), (timer) {
+    _togglePollingTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       fetchToggleStatus();
     });
+    _togglePollingTimer;
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _togglePollingTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -70,8 +79,10 @@ class _UpdateContextScreenState extends State<UpdateContextScreen> {
 
   void fetchToggleStatus() {
     /// Call [isEnabled] to get the toggle value
+    final isToggleEnabled = Unleash.isEnabled(ToggleKeys.experiment);
+
     setState(() {
-      toggleStatus = Unleash.isEnabled(ToggleKeys.experiment);
+      toggleStatus = isToggleEnabled;
       isLoading = false;
     });
   }
