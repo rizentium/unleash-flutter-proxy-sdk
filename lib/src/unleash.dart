@@ -19,6 +19,10 @@ class Unleash extends UnleashPlatform {
   /// [_app] is current unleash app instance
   static UnleashApp? _app;
 
+  /// [getCurrentAppInstance] will return current app instance that used by
+  /// unleash
+  static UnleashApp? getCurrentAppInstance() => _app;
+
   /// [appContext] is current [UnleashContext]
   static UnleashContext? appContext;
 
