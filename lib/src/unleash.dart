@@ -26,6 +26,14 @@ class Unleash extends UnleashPlatform {
   /// [appContext] is current [UnleashContext]
   static UnleashContext? appContext;
 
+  /// [_config] is current [UnleashConfig]
+  static UnleashConfig? _config;
+
+  /// [_client] is current [UnleashClient]
+  static UnleashClient? _client;
+
+  static Timer? _polling;
+
   /// Initializes a new [Unleash] instance by using [config] and [context]
   static Future<void> initializeApp({
     required UnleashConfig config,
@@ -33,43 +41,29 @@ class Unleash extends UnleashPlatform {
   }) async {
     /// Initialize context
     appContext = context;
+    _config = config;
 
     Utils.logger('Initialize application');
     final cache = await UnleashCache.init();
-    final client = UnleashClient(cache);
+    _client = UnleashClient(cache);
 
     final uri = Uri.tryParse(
       '${config.proxyUrl}?${appContext?.queryParams}',
     );
 
     /// Initial fetch toggles
-    await _fetchToggles(config: config, client: client, uri: uri);
+    await _fetchToggles(uri: uri);
 
-    if (config.poolMode == UnleashPollingMode.none) {
-      return;
-    }
-
-    /// Call init app periodically
-    Timer.periodic(config.poolMode, (timer) async {
-      final periodicUri = Uri.tryParse(
-        '${config.proxyUrl}?${appContext?.queryParams}',
-      );
-      await _fetchToggles(config: config, client: client, uri: periodicUri);
-      Utils.logger('Updated at ${DateTime.now()}');
-      Utils.logger(periodicUri.toString());
-    });
+    /// Register polling mode
+    await _registerPolling();
   }
 
-  static Future<void> _fetchToggles({
-    required UnleashConfig config,
-    Uri? uri,
-    required UnleashClient client,
-  }) async {
+  static Future<void> _fetchToggles({Uri? uri}) async {
     /// Use boostrap source as initial value
-    final toggles = <UnleashToggle>[...?config.bootstrap?.source];
+    final toggles = <UnleashToggle>[...?_config?.bootstrap?.source];
 
     /// Retrieve json data from bootstrap config
-    final bootstrapJson = config.bootstrap?.json;
+    final bootstrapJson = _config?.bootstrap?.json;
 
     if (bootstrapJson != null) {
       final bootstrapToggles = ToggleResponse.fromJson(
@@ -88,9 +82,9 @@ class Unleash extends UnleashPlatform {
     }
 
     /// Fetch data from server
-    final fetched = await client.fetch(
+    final fetched = await _client?.fetch(
       uri: uri,
-      headers: config.headers,
+      headers: _config?.headers ?? {},
     );
 
     fetched?.forEach((e) {
@@ -104,9 +98,33 @@ class Unleash extends UnleashPlatform {
     });
 
     /// Run onFetched function if exist
-    config.onFetched?.call(toggles);
+    _config?.onFetched?.call(toggles);
 
-    Unleash._(UnleashApp._(toggles, client: client, config: config));
+    Unleash._(UnleashApp._(toggles, client: _client, config: _config));
+  }
+
+  /// [_registerPolling] will call polling mode for unleash proxy
+  static Future<void> _registerPolling() async {
+    if (_config?.poolMode == UnleashPollingMode.none) {
+      return;
+    }
+
+    final duration = _config?.poolMode ?? UnleashPollingMode.defaultInterval;
+
+    /// Call init app periodically
+    _polling = Timer.periodic(duration, (timer) async {
+      final periodicUri = Uri.tryParse(
+        '${_config?.proxyUrl}?${appContext?.queryParams}',
+      );
+      await _fetchToggles(uri: periodicUri);
+      Utils.logger('Updated at ${DateTime.now()}');
+      Utils.logger(periodicUri.toString());
+    });
+  }
+
+  /// [dispose] will cancel all running process in unleash proxy
+  static void dispose() {
+    _polling?.cancel();
   }
 
   /// Get a single feature by using toggle [key] and return [UnleashToggle] or

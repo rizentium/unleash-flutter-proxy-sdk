@@ -3,13 +3,13 @@ import 'package:unleash_proxy/unleash_proxy.dart';
 /// Abstract class for Unleash Platform
 abstract class UnleashAppPlatform {
   /// Unleash Platform constructor
-  UnleashAppPlatform({required this.config, required this.client});
+  UnleashAppPlatform({this.config, this.client});
 
   /// Unleash Config
-  final UnleashConfig config;
+  final UnleashConfig? config;
 
   /// Unleash Client
-  final UnleashClient client;
+  final UnleashClient? client;
 
   /// Get a single feature by using toggle [key] and return [UnleashToggle]
   UnleashToggle? getToggle(String key);
