@@ -1,3 +1,6 @@
+# 0.2.5
+* Downgrade dart sdk required version
+
 # 0.2.4
 * Added support to get unleash app instance
 
