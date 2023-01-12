@@ -1,30 +1,19 @@
-// Copyright (c) 2022, Very Good Ventures
-// https://verygood.ventures
-//
-// Use of this source code is governed by an MIT-style
-// license that can be found in the LICENSE file or at
-// https://opensource.org/licenses/MIT.
-
-/// A Very Good Project created by Very Good CLI.
 library unleash_proxy;
 
 import 'dart:async';
-import 'dart:convert';
 
-import 'package:collection/collection.dart';
-import 'package:unleash_proxy/src/cache/cache.dart';
-import 'package:unleash_proxy/src/data/response.dart';
-import 'package:unleash_proxy/src/platform/unleash_app_platform.dart';
-import 'package:unleash_proxy/src/platform/unleash_platform.dart';
-import 'package:unleash_proxy/src/utils.dart';
-import 'package:unleash_proxy/unleash_proxy.dart';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
+import 'package:unleash_proxy/src/data/toggle.dart';
+import 'package:unleash_proxy/src/interfaces/context.dart';
+import 'package:unleash_proxy/src/interfaces/options.dart';
+import 'package:unleash_proxy/src/unleash/unleash_platform_interface.dart';
+import 'package:unleash_proxy/src/unleash_app/unleash_app_platform_interface.dart';
 
-export 'src/client.dart';
-export 'src/config.dart';
-export 'src/context.dart';
 export 'src/data/bootstrap.dart';
 export 'src/data/toggle.dart';
-export 'src/polling/polling.dart';
+export 'src/interfaces/context.dart';
+export 'src/interfaces/options.dart';
 
-part 'src/unleash.dart';
-part 'src/unleash_app.dart';
+part 'src/unleash/unleash.dart';
+part 'src/unleash_app/unleash_app.dart';

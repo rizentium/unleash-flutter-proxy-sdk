@@ -12,16 +12,18 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize unleash client here
-  await Unleash.initializeApp(
-    config: await UnleashEnvironment.config,
+  final unleashApp = await Unleash.initializeApp(
+    options: await UnleashEnvironment.config,
     context: UnleashEnvironment.context,
   );
 
-  runApp(const App());
+  runApp(App(app: unleashApp));
 }
 
 class App extends StatelessWidget {
-  const App({super.key});
+  const App({super.key, required this.app});
+
+  final UnleashApp app;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +32,15 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: const UnleashPage(),
+      home: UnleashPage(app: app),
     );
   }
 }
 
 class UnleashPage extends StatefulWidget {
-  const UnleashPage({super.key});
+  const UnleashPage({super.key, required this.app});
+
+  final UnleashApp app;
 
   @override
   State<UnleashPage> createState() => _UnleashPageState();
@@ -59,7 +63,7 @@ class _UnleashPageState extends State<UnleashPage> {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const BasicUsageScreen(),
+                    builder: (context) => BasicUsageScreen(app: widget.app),
                   )),
               child: const Text('Basic Usage'),
             ),
@@ -67,7 +71,7 @@ class _UnleashPageState extends State<UnleashPage> {
               onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const UpdateContextScreen(),
+                    builder: (context) => UpdateContextScreen(app: widget.app),
                   )),
               child: const Text('Update Context'),
             ),

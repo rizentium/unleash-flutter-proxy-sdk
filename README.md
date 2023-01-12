@@ -73,7 +73,7 @@ For the config you must set two variables, and if you'd like to be notified when
 Example:
 
 ```dart
-UnleashConfig(
+UnleashOptions(
   proxyUrl: 'https://UNLEASH_URL/proxy',
   clientKey: 'CLIENT_KEY',
   poolMode: UnleashPollingMode.custom(const Duration(seconds: 5)),
@@ -95,15 +95,9 @@ UnleashConfig(
 
 #### PollingModes
 
-For updating toggles based on server, you have to set pollingMode in unleash configuration. Polling Mode will set to 15 seconds by default, but you can set to `UnleashPollingMode.none` if you don't want to use toggle interval update or you can custom the interval duration by using custom polling mode.
+For updating toggles based on server, you have to set pollingMode in unleash configuration. Polling Mode will set to 15 seconds by default, but you can set to `const Duration(seconds: 0)` if you don't want to use toggle interval update or you can custom the interval duration by using custom polling mode.
 
-Example:
-
-```dart
-UnleashPollingMode.custom(const Duration(seconds: 5));
-```
-
-If you want to stop polling imediatelly, you can call `Unleash.dispose()`. Unleash will use the latest cache from your cache storage.
+If you want to stop polling imediatelly, you can call `dispose()`. Unleash will use the latest cache from your cache storage.
 
 #### Initialize
 
@@ -114,7 +108,7 @@ import 'package:flutter/services.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 class UnleashEnvironment {
-  static UnleashConfig get config => UnleashConfig(
+  static UnleashOptions get config => UnleashOptions(
     proxyUrl: 'https://UNLEASH_URL/proxy',
     clientKey: 'CLIENT_KEY',
   );
@@ -144,12 +138,12 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize unleash client here
-  await Unleash.initializeApp(
-    config: UnleashEnvironment.config,
+  final unleashApp = await Unleash.initializeApp(
+    options: await UnleashEnvironment.config,
     context: UnleashEnvironment.context,
   );
 
-  runApp(const App());
+  runApp(App(app: unleashApp));
 }
 
 ```
@@ -161,14 +155,16 @@ import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
-class ExampleScreen extends StatelessWidget {
-  const ExampleScreen({super.key});
+class BasicUsageScreen extends StatelessWidget {
+  const BasicUsageScreen({super.key, required this.app});
+
+  final UnleashApp app;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('First Screen'),
+        title: const Text('Basic Usage'),
       ),
       body: Center(
         child: Column(
@@ -187,7 +183,7 @@ class ExampleScreen extends StatelessWidget {
 
   Widget toggleStatus() {
     /// Call [isEnabled] to get the toggle value
-    final status = Unleash.isEnabled(ToggleKeys.experiment);
+    final status = app.isEnabled(ToggleKeys.experiment);
 
     return Text(status == true ? 'Enabled' : 'Disabled');
   }
