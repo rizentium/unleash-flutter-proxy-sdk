@@ -5,11 +5,14 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:unleash_proxy/src/unleash_app/unleash_app_method_channel.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
+/// [UnleashAppPlatform]
 abstract class UnleashAppPlatform extends PlatformInterface {
+  /// [UnleashAppPlatform]
   UnleashAppPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
+  /// [verify]
   static void verify(UnleashAppPlatform instance) {
     PlatformInterface.verify(instance, _token);
   }
@@ -19,9 +22,9 @@ abstract class UnleashAppPlatform extends PlatformInterface {
   /// Defaults to [MethodChannelUnleashApp].
   static UnleashAppPlatform _instance = MethodChannelUnleashApp();
 
-  /// The default instance of [UnleashPlatform] to use.
+  /// The default instance of [UnleashAppPlatform] to use.
   ///
-  /// Defaults to [MethodChannelUnleash].
+  /// Defaults to [MethodChannelUnleashApp].
   static UnleashAppPlatform get instance => _instance;
 
   static set instance(UnleashAppPlatform instance) {
@@ -29,17 +32,16 @@ abstract class UnleashAppPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// [options]
   UnleashOptions? options;
 
+  /// [context]
   UnleashContext? context;
-
-  String get queryParams {
-    throw UnimplementedError();
-  }
 
   /// [toggles] return list of fetched toggles
   List<UnleashToggle>? toggles;
 
+  /// [pollingTimer]
   Timer? pollingTimer;
 
   /// Get a single feature by using toggle [key] and return [UnleashToggle]
@@ -58,6 +60,12 @@ abstract class UnleashAppPlatform extends PlatformInterface {
     throw UnimplementedError();
   }
 
+  /// [queryParams]
+  String get queryParams {
+    throw UnimplementedError();
+  }
+
+  /// [fetch]
   Future<void> fetch({
     required http.Client client,
   }) {

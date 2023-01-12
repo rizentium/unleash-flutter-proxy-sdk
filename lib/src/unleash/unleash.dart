@@ -1,5 +1,6 @@
 part of unleash_proxy;
 
+/// [Unleash]
 class Unleash {
   Unleash._();
 

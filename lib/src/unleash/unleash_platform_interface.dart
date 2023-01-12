@@ -4,12 +4,14 @@ import 'package:unleash_proxy/src/unleash/unleash_method_channel.dart';
 import 'package:unleash_proxy/src/unleash_app/unleash_app_platform_interface.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
+/// [UnleashPlatform]
 abstract class UnleashPlatform extends PlatformInterface {
   /// Constructs a UnleashProxyPlatform.
   UnleashPlatform() : super(token: _token);
 
   static final Object _token = Object();
 
+  /// [verify]
   static void verify(UnleashAppPlatform instance) {
     PlatformInterface.verify(instance, _token);
   }
@@ -29,12 +31,15 @@ abstract class UnleashPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  /// [app]
   UnleashAppPlatform get app {
     throw UnimplementedError('app has not been implemented.');
   }
 
+  /// [context]
   UnleashContext? context;
 
+  /// [initializeApp]
   Future<UnleashApp> initializeApp({
     required UnleashOptions options,
     required http.Client client,

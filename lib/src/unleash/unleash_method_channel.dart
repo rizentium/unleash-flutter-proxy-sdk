@@ -6,6 +6,7 @@ import 'package:unleash_proxy/unleash_proxy.dart';
 
 /// An implementation of [UnleashPlatform] that uses method channels.
 class MethodChannelUnleash extends UnleashPlatform {
+  /// [appDelegatePackingProperty]
   @visibleForTesting
   UnleashAppPlatform? appDelegatePackingProperty;
 

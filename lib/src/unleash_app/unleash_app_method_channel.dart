@@ -12,6 +12,7 @@ import 'package:unleash_proxy/src/unleash_app/unleash_app_platform_interface.dar
 
 /// An implementation of [MethodChannelUnleashApp] that uses method channels.
 class MethodChannelUnleashApp extends UnleashAppPlatform {
+  /// [MethodChannelUnleashApp]
   MethodChannelUnleashApp();
 
   /// The method channel used to interact with the native platform.
