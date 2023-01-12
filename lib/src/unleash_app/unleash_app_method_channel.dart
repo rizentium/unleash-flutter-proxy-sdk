@@ -42,22 +42,18 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
     required http.Client client,
   }) async {
     try {
-      Future<List<UnleashToggle>> request() async {
-        var serielized = <UnleashToggle>[];
-        final uri = Uri.tryParse('${options?.proxyUrl}$queryParams');
-
-        if (uri != null) {
-          final response = await client.get(uri, headers: options?.headers);
-          final body = response.body;
-          serielized = ToggleResponse.fromJson(
-            json.decode(body) as Map<String, dynamic>,
-          ).toggles;
-        }
-
-        return serielized;
-      }
-
       final duration = options?.poolMode ?? const Duration(seconds: 15);
+
+      Future<List<UnleashToggle>?> request() async {
+        final fetchedFromServer = await _fetchFromServer(client: client) ?? [];
+
+        _fetchFromBootstrap()?.forEach((e) {
+          final index = fetchedFromServer.indexWhere((f) => e.name == f.name);
+          if (index == -1) fetchedFromServer.add(e);
+        });
+
+        return fetchedFromServer;
+      }
 
       toggles = await request();
 
@@ -69,5 +65,43 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
     } catch (e) {
       log('Error on fetching data', error: e);
     }
+  }
+
+  Future<List<UnleashToggle>?> _fetchFromServer({
+    required http.Client client,
+  }) async {
+    try {
+      var result = <UnleashToggle>[];
+      final uri = Uri.tryParse('${options?.proxyUrl}$queryParams');
+
+      if (uri != null) {
+        final response = await client.get(uri, headers: options?.headers);
+        final body = response.body;
+        result = ToggleResponse.fromJson(
+          json.decode(body) as Map<String, dynamic>,
+        ).toggles;
+      }
+
+      return result;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  List<UnleashToggle>? _fetchFromBootstrap() {
+    final response = options?.bootstrap?.source ?? [];
+    final bootstrapJson = options?.bootstrap?.json;
+
+    if (bootstrapJson != null) {
+      final jsonSerialized = ToggleResponse.fromJson(
+        json.decode(bootstrapJson) as Map<String, dynamic>,
+      ).toggles;
+      for (final e in jsonSerialized) {
+        final index = response.indexWhere((i) => e.name == i.name);
+        if (index != -1) response.add(e);
+      }
+    }
+
+    return response;
   }
 }
