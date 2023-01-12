@@ -3,13 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 class UnleashEnvironment {
-  static Future<UnleashConfig> get config async {
+  static Future<UnleashOptions> get config async {
     final String source = await rootBundle.loadString('lib/source.json');
 
-    return UnleashConfig(
+    return UnleashOptions(
       proxyUrl: 'https://app.unleash-hosted.com/demo/api/proxy',
       clientKey: 'proxy-123',
-      poolMode: UnleashPollingMode.custom(const Duration(seconds: 5)),
+      poolMode: const Duration(seconds: 5),
       bootstrap: UnleashBootstrap(
         source: [
           UnleashToggle(

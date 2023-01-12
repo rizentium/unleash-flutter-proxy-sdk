@@ -1,10 +1,9 @@
-import 'package:unleash_proxy/src/data/bootstrap.dart';
-import 'package:unleash_proxy/src/data/toggle.dart';
+import 'package:unleash_proxy/unleash_proxy.dart';
 
 /// Unleash Config Interface
-class UnleashConfig {
+class UnleashOptions {
   /// Unleash Config constructor
-  UnleashConfig({
+  UnleashOptions({
     required this.proxyUrl,
     required this.clientKey,
     this.instanceId,
@@ -19,13 +18,13 @@ class UnleashConfig {
   /// Unleash Client Key
   final String clientKey;
 
-  /// Unleash Instance Id
+  /// [instanceId] is not supported yet.
   final String? instanceId;
 
   /// Unleash Polling Mode
   final Duration poolMode;
 
-  /// Unleash Boostrap
+  /// [bootstrap] is not supported yet.
   final UnleashBootstrap? bootstrap;
 
   /// Header default for Unleash Request
@@ -35,6 +34,8 @@ class UnleashConfig {
         'Content-Type': 'application/json',
       };
 
+  /// [onFetched] is not supported yet.
+  ///
   /// Run this function every fetch from server
   final void Function(List<UnleashToggle> toggles)? onFetched;
 }

@@ -1,0 +1,28 @@
+{
+    "toggles": [
+        {
+            "name": "demo",
+            "enabled": true,
+            "variant": {
+                "name": "disabled",
+                "enabled": false
+            }
+        },
+        {
+            "name": "demoApp.step1",
+            "enabled": true,
+            "variant": {
+                "name": "disabled",
+                "enabled": false
+            }
+        },
+        {
+            "name": "demoApp.step2",
+            "enabled": true,
+            "variant": {
+                "name": "disabled",
+                "enabled": false
+            }
+        }
+    ]
+}

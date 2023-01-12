@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 class UpdateContextScreen extends StatefulWidget {
-  const UpdateContextScreen({super.key});
+  const UpdateContextScreen({super.key, required this.app});
+
+  final UnleashApp app;
 
   @override
   State<UpdateContextScreen> createState() => _UpdateContextScreenState();
@@ -71,14 +73,14 @@ class _UpdateContextScreenState extends State<UpdateContextScreen> {
     });
 
     /// Update current unleash context
-    Unleash.appContext = UnleashContext(
+    widget.app.context = UnleashContext(
       userId: 'exampleId',
     );
   }
 
   void fetchToggleStatus() {
     /// Call [isEnabled] to get the toggle value
-    final isToggleEnabled = Unleash.isEnabled(ToggleKeys.experiment);
+    final isToggleEnabled = widget.app.isEnabled(ToggleKeys.experiment);
 
     setState(() {
       toggleStatus = isToggleEnabled;

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:unleash_proxy/unleash_proxy.dart';
 
 class BasicUsageScreen extends StatelessWidget {
-  const BasicUsageScreen({super.key});
+  const BasicUsageScreen({super.key, required this.app});
+
+  final UnleashApp app;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class BasicUsageScreen extends StatelessWidget {
 
   Widget toggleStatus() {
     /// Call [isEnabled] to get the toggle value
-    final status = Unleash.isEnabled(ToggleKeys.experiment);
+    final status = app.isEnabled(ToggleKeys.experiment);
 
     return Text(status == true ? 'Enabled' : 'Disabled');
   }
