@@ -3,21 +3,26 @@ description: Unleash Flutter Proxy SDK. Unleash is an open-source feature flag s
 homepage: https://github.com/rizentium/unleash-flutter-proxy-sdk
 repository: https://github.com/rizentium/unleash-flutter-proxy-sdk
 issue_tracker: https://github.com/rizentium/unleash-flutter-proxy-sdk/issues
-version: 0.3.0
+version: 0.3.1
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
 
 dependencies:
-  collection: ^1.16.0
   flutter:
     sdk: flutter
   http: ^0.13.5
-  shared_preferences: ^2.0.15
+  plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
-  mocktail: ^0.3.0
+  mockito: ^5.3.2
   very_good_analysis: ^3.1.0
+
+flutter:
+  assets:
+    - test/data/mock_proxy.json
+    - test/data/mock_proxy_with_context.json
