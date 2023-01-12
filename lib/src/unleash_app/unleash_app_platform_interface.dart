@@ -71,4 +71,9 @@ abstract class UnleashAppPlatform extends PlatformInterface {
   }) {
     throw UnimplementedError();
   }
+
+  /// [immediateUpdate] will force update current toggles
+  Future<void> immediateUpdate({http.Client? client}) {
+    throw UnimplementedError();
+  }
 }

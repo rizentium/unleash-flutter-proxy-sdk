@@ -24,8 +24,12 @@ class UnleashApp {
   UnleashContext? get context => _delegate.context;
 
   /// [context] will set or update current unleash context
-  set context(UnleashContext? context) {
+  Future<void> setContext(
+    UnleashContext? context, {
+    bool? forceUpdate = true,
+  }) async {
     _delegate.context = context;
+    if (forceUpdate ?? false) await immediateUpdate();
   }
 
   /// [initialize] will initialize unleash application
@@ -44,6 +48,11 @@ class UnleashApp {
   /// [dispose] will cancel polling timer
   void dispose() {
     _delegate.pollingTimer?.cancel();
+  }
+
+  /// [immediateUpdate] will force update current toggles
+  Future<void> immediateUpdate({http.Client? client}) async {
+    await _delegate.immediateUpdate(client: client);
   }
 
   /// [isEnabled] return current selected toggle or return false if not exist.

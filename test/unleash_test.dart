@@ -80,9 +80,7 @@ void main() {
     });
 
     test('should return correct data after update context', () async {
-      unleashApp.context = UnleashContext(
-        userId: '12345',
-      );
+      await unleashApp.setContext(UnleashContext(userId: '12345'));
 
       final queryParams = unleashApp.context?.queryParams;
       final uri = Uri.tryParse('${options.proxyUrl}?$queryParams')!;
@@ -183,9 +181,7 @@ void main() {
     });
 
     test('should return correct data after update context', () async {
-      unleashApp.context = UnleashContext(
-        userId: '12345',
-      );
+      await unleashApp.setContext(UnleashContext(userId: '12345'));
 
       final queryParams = unleashApp.context?.queryParams;
       final uri = Uri.tryParse('${options.proxyUrl}?$queryParams')!;
