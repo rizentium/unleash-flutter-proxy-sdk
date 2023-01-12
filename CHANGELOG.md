@@ -1,4 +1,4 @@
-# 0.3.0
+# 0.3.1
 * Refactor code to create a readable package
 
 # 0.2.5
