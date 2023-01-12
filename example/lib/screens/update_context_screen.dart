@@ -66,16 +66,13 @@ class _UpdateContextScreenState extends State<UpdateContextScreen> {
     );
   }
 
-  void updateContext() {
+  Future<void> updateContext() async {
     setState(() {
       /// Set status to loading
       isLoading = true;
     });
 
-    /// Update current unleash context
-    widget.app.context = UnleashContext(
-      userId: 'exampleId',
-    );
+    await widget.app.setContext(UnleashContext(userId: 'exampleId'));
   }
 
   void fetchToggleStatus() {

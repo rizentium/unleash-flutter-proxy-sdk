@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:unleash_proxy/src/data/response.dart';
 import 'package:unleash_proxy/src/data/toggle.dart';
 import 'package:unleash_proxy/src/unleash_app/unleash_app_platform_interface.dart';
+import 'package:unleash_proxy/src/utils/logger.dart';
 
 /// An implementation of [MethodChannelUnleashApp] that uses method channels.
 class MethodChannelUnleashApp extends UnleashAppPlatform {
@@ -45,27 +45,32 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
     try {
       final duration = options?.poolMode ?? const Duration(seconds: 15);
 
-      Future<List<UnleashToggle>?> request() async {
-        final fetchedFromServer = await _fetchFromServer(client: client) ?? [];
-
-        _fetchFromBootstrap()?.forEach((e) {
-          final index = fetchedFromServer.indexWhere((f) => e.name == f.name);
-          if (index == -1) fetchedFromServer.add(e);
-        });
-
-        return fetchedFromServer;
-      }
-
-      toggles = await request();
+      toggles = await _fetch(client);
 
       if (duration.inSeconds > 0) {
         pollingTimer = Timer.periodic(duration, (timer) async {
-          toggles = await request();
+          toggles = await _fetch(client);
         });
       }
+      Logger.writeInfo('UnleashApp has been started successfully!');
     } catch (e) {
-      log('Error on fetching data', error: e);
+      Logger.writeError('UnleashApp got error on fetching data', error: e);
     }
+  }
+
+  Future<List<UnleashToggle>?> _fetch(http.Client client) async {
+    final fetchedFromServer = await _fetchFromServer(client: client) ?? [];
+
+    _fetchFromBootstrap()?.forEach((e) {
+      final index = fetchedFromServer.indexWhere((f) => e.name == f.name);
+      if (index == -1) fetchedFromServer.add(e);
+    });
+
+    /// Call onFetched method if initiated by user
+    options?.onFetched?.call(fetchedFromServer);
+
+    Logger.writeInfo('Fetched at ${DateTime.now()}');
+    return fetchedFromServer;
   }
 
   Future<List<UnleashToggle>?> _fetchFromServer({
@@ -104,5 +109,10 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
     }
 
     return response;
+  }
+
+  @override
+  Future<void> immediateUpdate({http.Client? client}) async {
+    toggles = await _fetch(client ?? http.Client());
   }
 }
