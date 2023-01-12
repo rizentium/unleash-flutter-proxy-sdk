@@ -1,6 +1,7 @@
 # 0.3.2
 * Added support to immediate update
 * Changed setContext method to support immediate update after set context
+* Fixed onFetched is not called on data fetched
 
 # 0.3.1
 * Refactor code to create a readable package

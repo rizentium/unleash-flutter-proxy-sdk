@@ -52,13 +52,22 @@ UnleashContext(
 );
 ```
 
-Update current context by set unleash `appContext`:
+Update current context:
 
 ```dart
-Unleash.appContext = UnleashContext(
-  properties: {'variant': 'ios'},
-  userId: 'exampleId',
-);
+class UnleashScreen extends StatelessWidget {
+  UnleashScreen({required this.unleash});
+  final UnleashApp unleash;
+  
+  /// [updateContext] method will update current context
+  Future<void> updateContext() async {
+    await unleashApp.setContext(UnleashContext(
+      properties: {'variant': 'ios'},
+      userId: 'exampleId',
+    ));
+  }
+}
+
 ```
 
 #### Configuration

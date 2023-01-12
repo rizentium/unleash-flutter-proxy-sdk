@@ -66,6 +66,9 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
       if (index == -1) fetchedFromServer.add(e);
     });
 
+    /// Call onFetched method if initiated by user
+    options?.onFetched?.call(fetchedFromServer);
+
     Logger.writeInfo('Fetched at ${DateTime.now()}');
     return fetchedFromServer;
   }
