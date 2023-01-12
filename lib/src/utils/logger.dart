@@ -11,7 +11,6 @@ class Logger {
   /// collected by `package:logging`.
   ///
   /// - [message] is the log message
-  /// - [time] (optional) is the timestamp
   /// - [sequenceNumber] (optional) is a monotonically increasing sequence
   ///   number
   /// - [level] (optional) is the severity level (a value between 0 and 2000);
