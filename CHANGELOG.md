@@ -1,3 +1,6 @@
+# 0.3.3
+* Fixed isEnabled condition
+
 # 0.3.2
 * Added support to immediate update
 * Changed setContext method to support immediate update after set context

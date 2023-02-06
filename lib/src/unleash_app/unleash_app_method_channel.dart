@@ -30,7 +30,7 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
 
   @override
   bool isEnabled(String key, {bool? defaultValue, bool? overrideValue}) {
-    return getToggle(key)?.enabled ?? false;
+    return overrideValue ?? getToggle(key)?.enabled ?? defaultValue ?? false;
   }
 
   @override
