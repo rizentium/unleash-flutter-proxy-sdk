@@ -1,4 +1,5 @@
 import 'package:example/screens/basic_usage_screen.dart';
+import 'package:example/screens/toggle_list_screen.dart';
 import 'package:example/screens/update_context_screen.dart';
 import 'package:example/unleash_environment.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,14 @@ class _UnleashPageState extends State<UnleashPage> {
                     builder: (context) => BasicUsageScreen(app: widget.app),
                   )),
               child: const Text('Basic Usage'),
+            ),
+            OutlinedButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ToggleListScreen(app: widget.app),
+                  )),
+              child: const Text('Toggle list'),
             ),
             OutlinedButton(
               onPressed: () => Navigator.push(
