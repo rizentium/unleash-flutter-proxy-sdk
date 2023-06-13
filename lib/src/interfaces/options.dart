@@ -9,7 +9,8 @@ class UnleashOptions {
     this.instanceId,
     this.poolMode = const Duration(seconds: 15),
     this.bootstrap,
-    this.onFetched,
+    this.onFetchedSuccess,
+    this.onFetchedFailed,
   });
 
   /// Unleash Proxy URL
@@ -34,8 +35,13 @@ class UnleashOptions {
         'Content-Type': 'application/json',
       };
 
-  /// [onFetched] is not supported yet.
+  /// [onFetchedSuccess] is not supported yet.
   ///
-  /// Run this function every fetch from server
-  final void Function(List<UnleashToggle> toggles)? onFetched;
+  /// Run this function every successful fetch from server
+  final void Function(List<UnleashToggle> toggles)? onFetchedSuccess;
+
+  /// [onFetchedFailed] is not supported yet.
+  ///
+  /// Run this function every failed fetch from server
+  final void Function(Exception e)? onFetchedFailed;
 }

@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-
 import 'package:unleash_proxy/src/data/response.dart';
+import 'package:unleash_proxy/src/data/result.dart';
 import 'package:unleash_proxy/src/data/toggle.dart';
 import 'package:unleash_proxy/src/unleash_app/unleash_app_platform_interface.dart';
 import 'package:unleash_proxy/src/utils/logger.dart';
@@ -59,21 +59,37 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
   }
 
   Future<List<UnleashToggle>?> _fetch(http.Client client) async {
-    final fetchedFromServer = await _fetchFromServer(client: client) ?? [];
+    final fetchResult = await _fetchFromServer(client: client);
+    if (fetchResult is Success<List<UnleashToggle>?>) {
+      final fetchedFromServer = fetchResult.data ?? [];
+      _fetchFromBootstrap()?.forEach((e) {
+        final index = fetchedFromServer.indexWhere((f) => e.name == f.name);
+        if (index == -1) fetchedFromServer.add(e);
+      });
 
-    _fetchFromBootstrap()?.forEach((e) {
-      final index = fetchedFromServer.indexWhere((f) => e.name == f.name);
-      if (index == -1) fetchedFromServer.add(e);
-    });
+      /// Call onFetched method if initiated by user
+      options?.onFetchedSuccess?.call(fetchedFromServer);
 
-    /// Call onFetched method if initiated by user
-    options?.onFetched?.call(fetchedFromServer);
+      Logger.writeInfo('Fetch success at ${DateTime.now()}');
+      return fetchedFromServer;
+    } else if (fetchResult is Error<List<UnleashToggle>?>) {
+      /// Call onFetched method if initiated by user
+      options?.onFetchedFailed?.call(fetchResult.error);
+      Logger.writeError(
+        'Fetch failed at ${DateTime.now()} with error',
+        error: fetchResult.error,
+      );
 
-    Logger.writeInfo('Fetched at ${DateTime.now()}');
-    return fetchedFromServer;
+      /// return unmodified toggles or empty
+      return toggles ?? [];
+    }
+
+    /// should not reach this lines, but by default return unmodified toggles
+    /// or empty
+    return toggles ?? [];
   }
 
-  Future<List<UnleashToggle>?> _fetchFromServer({
+  Future<Result<List<UnleashToggle>?>> _fetchFromServer({
     required http.Client client,
   }) async {
     try {
@@ -88,9 +104,9 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
         ).toggles;
       }
 
-      return result;
+      return Success(result);
     } catch (e) {
-      return null;
+      return Error(e);
     }
   }
 

@@ -7,23 +7,25 @@ class UnleashEnvironment {
     final String source = await rootBundle.loadString('lib/source.json');
 
     return UnleashOptions(
-      proxyUrl: 'https://app.unleash-hosted.com/demo/api/proxy',
-      clientKey: 'proxy-123',
-      poolMode: const Duration(seconds: 5),
-      bootstrap: UnleashBootstrap(
-        source: [
-          UnleashToggle(
-            enabled: true,
-            name: 'testing-source',
-            variant: UnleashToggleVariant(name: 'disabled', enabled: false),
-          ),
-        ],
-        json: source,
-      ),
-      onFetched: (List<UnleashToggle> toggles) {
-        debugPrint('Yay! ${toggles.length} toggles fetched.');
-      },
-    );
+        proxyUrl: 'https://app.unleash-hosted.com/demo/api/proxy',
+        clientKey: 'proxy-123',
+        poolMode: const Duration(seconds: 5),
+        bootstrap: UnleashBootstrap(
+          source: [
+            UnleashToggle(
+              enabled: true,
+              name: 'testing-source',
+              variant: UnleashToggleVariant(name: 'disabled', enabled: false),
+            ),
+          ],
+          json: source,
+        ),
+        onFetchedSuccess: (List<UnleashToggle> toggles) {
+          debugPrint('Yay! ${toggles.length} toggles fetched.');
+        },
+        onFetchedFailed: (Exception e) {
+          debugPrint('Ouch! failed to fetch toggles with error: $e.');
+        });
   }
 
   static UnleashContext get context => UnleashContext(
