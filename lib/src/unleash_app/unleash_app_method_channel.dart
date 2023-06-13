@@ -80,12 +80,12 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
         error: fetchResult.error,
       );
 
-      /// return unmodified toggles or empty
+      /// return unmodified toggles or bootstrap toggles
       return toggles ?? _fetchFromBootstrap();
     }
 
     /// should not reach this lines, but by default return unmodified toggles
-    /// or empty
+    /// or bootstrap toggles
     return toggles ?? _fetchFromBootstrap();
   }
 

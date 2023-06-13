@@ -35,13 +35,9 @@ class UnleashOptions {
         'Content-Type': 'application/json',
       };
 
-  /// [onFetchedSuccess] is not supported yet.
-  ///
   /// Run this function every successful fetch from server
   final void Function(List<UnleashToggle> toggles)? onFetchedSuccess;
 
-  /// [onFetchedFailed] is not supported yet.
-  ///
   /// Run this function every failed fetch from server
   final void Function(Exception e)? onFetchedFailed;
 }
