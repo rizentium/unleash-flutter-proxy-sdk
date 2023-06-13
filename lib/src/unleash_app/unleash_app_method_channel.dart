@@ -81,12 +81,12 @@ class MethodChannelUnleashApp extends UnleashAppPlatform {
       );
 
       /// return unmodified toggles or empty
-      return toggles ?? [];
+      return toggles ?? _fetchFromBootstrap();
     }
 
     /// should not reach this lines, but by default return unmodified toggles
     /// or empty
-    return toggles ?? [];
+    return toggles ?? _fetchFromBootstrap();
   }
 
   Future<Result<List<UnleashToggle>?>> _fetchFromServer({
